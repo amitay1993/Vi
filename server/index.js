@@ -2,9 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import { getAllMarvelMoviesNameAndId } from "./api/getAllMarvelMovies/index.js";
-import { actorsWithMultipleCharactersApi } from "./api-routes/actorsWiwthMultipleCharcters/index.js";
-import { moviesPerActorApi } from "./api-routes/moviesPerActor/index.js";
-import { charactersWithMultipleActorsApi } from "./api-routes/charactersWithMultipleActors/index.js";
+import { apiRoutes } from "./api-routes/index.js";
 const app = express();
 
 const PORT = process.env.PORT || 3001;
@@ -29,9 +27,7 @@ preFetch().then(
 );
 
 function registerApiRoutes() {
-  app.use("/api", charactersWithMultipleActorsApi());
-  app.use("/api", actorsWithMultipleCharactersApi());
-  app.use("/api", moviesPerActorApi());
+  app.use("/api", apiRoutes());
 }
 async function preFetch() {
   response["movies"] = await getAllMarvelMoviesNameAndId();

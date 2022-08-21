@@ -1,8 +1,6 @@
 import axios from "axios";
 import { apiService } from "../../index.js";
 
-// https://api.themoviedb.org/3/movie/616037/credits?api_key=ee2a3856ff26d9a79c396414c1059282
-
 const moviesNamePerActor = {};
 
 export async function getActorsFromMovies(movies) {
@@ -25,8 +23,6 @@ export async function getActorsFromMovies(movies) {
 }
 
 function filterMovies(movieCast, movieName) {
-  // all cast in each movie
-  //"known_for_department": "Acting",
   movieCast.forEach(({ known_for_department, name: playerName }) => {
     if (known_for_department === "Acting") {
       if (moviesNamePerActor[playerName]) {
