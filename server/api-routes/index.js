@@ -6,6 +6,7 @@ import { actorsWithMultipleCharactersApi } from "./actorsWiwthMultipleCharcters/
 
 export function apiRoutes() {
   const router = Router();
+
   router.use(API_ROUTES.moviesPerActor, moviesPerActorApi());
   router.use(
     API_ROUTES.actorsWithMultipleCharacters,
