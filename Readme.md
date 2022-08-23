@@ -11,10 +11,12 @@
 ```console
 yarn dev
 ```
-##### create .env file in root directory:
+##### create .env file in root directory and paster the following:
+  ```
   1.API_BASE_URL="https://api.themoviedb.org/3"
   2.API_KEY_NAME="api_key"
   3.API_KEY_VALUE=[YOUR_API_KEY]
+  ```
 
 
 Make requests and see response:
