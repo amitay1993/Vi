@@ -37,8 +37,6 @@ function filterMovies(
   charctersPerActor,
   charactersWithMultipleActors
 ) {
-  // all cast in each movie
-  //"known_for_department": "Acting",
   movieCast.forEach(({ known_for_department, name: playerName, character }) => {
     if (known_for_department === "Acting") {
       const key = `${movieName}&*&${character}`;
@@ -59,11 +57,11 @@ function filterMoviesWithMoreThanOneActor(
   charctersPerActor,
   charactersWithMultipleActors
 ) {
-  for (const [key, value] of Object.entries(charctersPerActor)) {
-    if (value.length > 1) {
+  for (const [key, actors] of Object.entries(charctersPerActor)) {
+    if (actors.length > 1) {
       const [movieName, characterName] = key.split("&*&");
       charactersWithMultipleActors[movieName] = {
-        [characterName]: value,
+        [characterName]: actors,
       };
     }
   }
