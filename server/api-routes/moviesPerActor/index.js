@@ -4,6 +4,7 @@ import { getAllMarvelMoviesNameAndId } from "../../api/getAllMarvelMovies/index.
 
 export function moviesPerActorApi() {
   const router = Router();
+
   router.get("/", async (req, res) => {
     const response = await getAllMarvelMoviesNameAndId();
     const actorsFromMovies = await getActorsFromMovies(response);
