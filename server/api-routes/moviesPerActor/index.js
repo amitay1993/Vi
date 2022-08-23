@@ -1,12 +1,12 @@
 import { getActorsFromMovies } from "../../api/getActorsFromMovies/index.js";
-import { response } from "../../index.js";
 import { Router } from "express";
-import { API_ROUTES } from "../apiRoutes.consts.js";
+import { getAllMarvelMoviesNameAndId } from "../../api/getAllMarvelMovies/index.js";
 
 export function moviesPerActorApi() {
   const router = Router();
-  router.get(API_ROUTES.moviesPerActor, async (req, res) => {
-    const actorsFromMovies = await getActorsFromMovies(response["movies"]);
+  router.get("/", async (req, res) => {
+    const response = await getAllMarvelMoviesNameAndId();
+    const actorsFromMovies = await getActorsFromMovies(response);
     res.send(actorsFromMovies);
   });
   return router;

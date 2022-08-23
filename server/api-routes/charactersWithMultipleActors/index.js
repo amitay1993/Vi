@@ -1,14 +1,14 @@
 import { getCharactersWithMultipleActors } from "../../api/charactersWithMultipleActors/index.js";
-import { response } from "../../index.js";
 import { Router } from "express";
-import { API_ROUTES } from "../apiRoutes.consts.js";
+import { getAllMarvelMoviesNameAndId } from "../../api/getAllMarvelMovies/index.js";
 
 export function charactersWithMultipleActorsApi() {
   const router = Router();
 
-  router.get(API_ROUTES.charactersWithMultipleActors, async (req, res) => {
+  router.get("/", async (req, res) => {
+    const response = await getAllMarvelMoviesNameAndId();
     const actorsWithMultipleCharacters = await getCharactersWithMultipleActors(
-      response["movies"]
+      response
     );
     res.send(actorsWithMultipleCharacters);
   });

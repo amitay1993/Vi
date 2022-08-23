@@ -1,12 +1,13 @@
 import axios from "axios";
-import { apiService } from "../../index.js";
-
-// https://api.themoviedb.org/3/movie/616037/credits?api_key=ee2a3856ff26d9a79c396414c1059282
-
-const charctersPerActor = {};
-const charactersWithMultipleActors = {};
+import { apiService } from "../../apiService.js";
 
 export async function getCharactersWithMultipleActors(movies) {
+  if (!movies || movies.length === 0) {
+    return [];
+  }
+
+  const charactersPerActor = {};
+  const charactersWithMultipleActors = {};
   const params = new URLSearchParams({
     [apiService.apiKeyName]: apiService.apiKeyValue,
   });
@@ -20,12 +21,22 @@ export async function getCharactersWithMultipleActors(movies) {
   result.forEach((movie, index) => {
     const { original_title: movieName } = movies[index];
     const { cast: movieCast } = movie.data;
-    filterMovies(movieCast, movieName);
+    filterMovies(
+      movieCast,
+      movieName,
+      charactersPerActor,
+      charactersWithMultipleActors
+    );
   });
   return charactersWithMultipleActors;
 }
 
-function filterMovies(movieCast, movieName) {
+function filterMovies(
+  movieCast,
+  movieName,
+  charctersPerActor,
+  charactersWithMultipleActors
+) {
   // all cast in each movie
   //"known_for_department": "Acting",
   movieCast.forEach(({ known_for_department, name: playerName, character }) => {
@@ -38,10 +49,16 @@ function filterMovies(movieCast, movieName) {
       }
     }
   });
-  return filterMoviesWithMoreThanOneActor(charctersPerActor);
+  return filterMoviesWithMoreThanOneActor(
+    charctersPerActor,
+    charactersWithMultipleActors
+  );
 }
 
-function filterMoviesWithMoreThanOneActor(charctersPerActor) {
+function filterMoviesWithMoreThanOneActor(
+  charctersPerActor,
+  charactersWithMultipleActors
+) {
   for (const [key, value] of Object.entries(charctersPerActor)) {
     if (value.length > 1) {
       const [movieName, characterName] = key.split("&*&");

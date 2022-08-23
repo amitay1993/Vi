@@ -1,9 +1,13 @@
 import axios from "axios";
-import { apiService } from "../../index.js";
-
-const moviesNamePerActor = {};
+import { apiService } from "../../apiService.js";
 
 export async function getActorsFromMovies(movies) {
+  if (!movies || movies.length === 0) {
+    return [];
+  }
+
+  const moviesNamePerActor = {};
+
   const params = new URLSearchParams({
     [apiService.apiKeyName]: apiService.apiKeyValue,
   });
@@ -17,12 +21,12 @@ export async function getActorsFromMovies(movies) {
   result.forEach((movie, index) => {
     const { original_title: movieName } = movies[index];
     const { cast: movieCast } = movie.data;
-    filterMovies(movieCast, movieName);
+    filterMovies(movieCast, movieName, moviesNamePerActor);
   });
   return moviesNamePerActor;
 }
 
-function filterMovies(movieCast, movieName) {
+function filterMovies(movieCast, movieName, moviesNamePerActor) {
   movieCast.forEach(({ known_for_department, name: playerName }) => {
     if (known_for_department === "Acting") {
       if (moviesNamePerActor[playerName]) {
